@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Toolkit</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <h1><i class="fa-solid fa-graduation-cap"></i> Student Toolkit</h1>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="app-main" id="app-content">
+        <!-- Dashboard View (Home) -->
+        <section id="view-home" class="view active">
+            <div class="welcome-section">
+                <h2>Welcome back!</h2>
+                <p>What would you like to do today?</p>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card nav-card" data-target="view-cgpa">
+                    <div class="card-icon blue-gradient">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <h3>CGPA Calculator</h3>
+                    <p>Calculate your cumulative grade point average</p>
+                </div>
+
+                <div class="card nav-card" data-target="view-sgpa">
+                    <div class="card-icon purple-gradient">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3>SGPA Calculator</h3>
+                    <p>Calculate your semester grade point average</p>
+                </div>
+
+                <div class="card nav-card" data-target="view-notes">
+                    <div class="card-icon teal-gradient">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <h3>PDF Notes</h3>
+                    <p>Access study materials and lecture notes</p>
+                </div>
+
+                <div class="card nav-card" data-target="view-tools">
+                    <div class="card-icon orange-gradient">
+                        <i class="fa-solid fa-toolbox"></i>
+                    </div>
+                    <h3>Tools</h3>
+                    <p>Percentage calculator, unit converters & more</p>
+                </div>
+            </div>
+            
+            <!-- Ad Placeholder -->
+            <div class="ad-placeholder banner-ad">
+                <span>Advertisement</span>
+            </div>
+        </section>
+
+        <!-- Other views will be hidden by default -->
+        <section id="view-cgpa" class="view">
+            <div class="view-header">
+                <button class="back-btn" data-target="view-home"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <h2><i class="fa-solid fa-calculator text-primary" style="margin-right: 0.5rem;"></i> CGPA Calculator</h2>
+            </div>
+            <div class="calculator-container">
+                <div class="card calc-card">
+                    <div class="calc-header">
+                        <h3>Subjects</h3>
+                        <button id="add-subject-btn" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Add Subject</button>
+                    </div>
+                    
+                    <div class="subjects-list" id="cgpa-subjects">
+                        <!-- Initial Subject Row -->
+                        <div class="subject-row">
+                            <input type="text" placeholder="Subject (Optional)" class="input-field subject-name">
+                            <input type="number" placeholder="Credits" class="input-field subject-credits" min="1" max="10">
+                            <select class="input-field subject-grade">
+                                <option value="" disabled selected>Grade</option>
+                                <option value="10">O (10)</option>
+                                <option value="9">A+ (9)</option>
+                                <option value="8">A (8)</option>
+                                <option value="7">B+ (7)</option>
+                                <option value="6">B (6)</option>
+                                <option value="5">C (5)</option>
+                                <option value="0">F (0)</option>
+                            </select>
+                            <button class="btn-icon remove-subject text-danger" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div class="subject-row">
+                            <input type="text" placeholder="Subject (Optional)" class="input-field subject-name">
+                            <input type="number" placeholder="Credits" class="input-field subject-credits" min="1" max="10">
+                            <select class="input-field subject-grade">
+                                <option value="" disabled selected>Grade</option>
+                                <option value="10">O (10)</option>
+                                <option value="9">A+ (9)</option>
+                                <option value="8">A (8)</option>
+                                <option value="7">B+ (7)</option>
+                                <option value="6">B (6)</option>
+                                <option value="5">C (5)</option>
+                                <option value="0">F (0)</option>
+                            </select>
+                            <button class="btn-icon remove-subject text-danger" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div class="subject-row">
+                            <input type="text" placeholder="Subject (Optional)" class="input-field subject-name">
+                            <input type="number" placeholder="Credits" class="input-field subject-credits" min="1" max="10">
+                            <select class="input-field subject-grade">
+                                <option value="" disabled selected>Grade</option>
+                                <option value="10">O (10)</option>
+                                <option value="9">A+ (9)</option>
+                                <option value="8">A (8)</option>
+                                <option value="7">B+ (7)</option>
+                                <option value="6">B (6)</option>
+                                <option value="5">C (5)</option>
+                                <option value="0">F (0)</option>
+                            </select>
+                            <button class="btn-icon remove-subject text-danger" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="calc-actions">
+                        <button id="reset-cgpa-btn" class="btn btn-outline text-muted">Reset</button>
+                        <button id="calc-cgpa-btn" class="btn btn-primary">Calculate CGPA</button>
+                    </div>
+                </div>
+                
+                <div class="card result-card" id="cgpa-result-card" style="display: none;">
+                    <h3>Your CGPA</h3>
+                    <div class="result-value" id="cgpa-result-value">0.00</div>
+                    <p class="result-message" id="cgpa-result-message"></p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="view-sgpa" class="view">
+            <div class="view-header">
+                <button class="back-btn" data-target="view-home"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <h2><i class="fa-solid fa-chart-line text-primary" style="margin-right: 0.5rem;"></i> SGPA Calculator</h2>
+            </div>
+            <div class="calculator-container">
+                <div class="card calc-card">
+                    <div class="calc-header">
+                        <h3>Subjects</h3>
+                        <button id="add-sgpa-subject-btn" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Add Subject</button>
+                    </div>
+                    
+                    <div class="subjects-list" id="sgpa-subjects">
+                        <!-- Initial Subject Row -->
+                        <div class="subject-row">
+                            <input type="text" placeholder="Subject (Optional)" class="input-field subject-name">
+                            <input type="number" placeholder="Credits" class="input-field subject-credits" min="1" max="10">
+                            <select class="input-field subject-grade">
+                                <option value="" disabled selected>Grade</option>
+                                <option value="10">O (10)</option>
+                                <option value="9">A+ (9)</option>
+                                <option value="8">A (8)</option>
+                                <option value="7">B+ (7)</option>
+                                <option value="6">B (6)</option>
+                                <option value="5">C (5)</option>
+                                <option value="0">F (0)</option>
+                            </select>
+                            <button class="btn-icon remove-subject text-danger" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div class="subject-row">
+                            <input type="text" placeholder="Subject (Optional)" class="input-field subject-name">
+                            <input type="number" placeholder="Credits" class="input-field subject-credits" min="1" max="10">
+                            <select class="input-field subject-grade">
+                                <option value="" disabled selected>Grade</option>
+                                <option value="10">O (10)</option>
+                                <option value="9">A+ (9)</option>
+                                <option value="8">A (8)</option>
+                                <option value="7">B+ (7)</option>
+                                <option value="6">B (6)</option>
+                                <option value="5">C (5)</option>
+                                <option value="0">F (0)</option>
+                            </select>
+                            <button class="btn-icon remove-subject text-danger" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div class="subject-row">
+                            <input type="text" placeholder="Subject (Optional)" class="input-field subject-name">
+                            <input type="number" placeholder="Credits" class="input-field subject-credits" min="1" max="10">
+                            <select class="input-field subject-grade">
+                                <option value="" disabled selected>Grade</option>
+                                <option value="10">O (10)</option>
+                                <option value="9">A+ (9)</option>
+                                <option value="8">A (8)</option>
+                                <option value="7">B+ (7)</option>
+                                <option value="6">B (6)</option>
+                                <option value="5">C (5)</option>
+                                <option value="0">F (0)</option>
+                            </select>
+                            <button class="btn-icon remove-subject text-danger" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="calc-actions">
+                        <button id="reset-sgpa-btn" class="btn btn-outline text-muted">Reset</button>
+                        <button id="calc-sgpa-btn" class="btn btn-primary">Calculate SGPA</button>
+                    </div>
+                </div>
+                
+                <div class="card result-card" id="sgpa-result-card" style="display: none;">
+                    <h3>Your SGPA</h3>
+                    <div class="result-value" id="sgpa-result-value">0.00</div>
+                    <p class="result-message" id="sgpa-result-message"></p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="view-notes" class="view">
+            <div class="view-header">
+                <button class="back-btn" data-target="view-home"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <h2><i class="fa-solid fa-file-pdf text-primary" style="margin-right: 0.5rem;"></i> PDF Notes</h2>
+            </div>
+            <div class="notes-container">
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="notes-search" class="input-field" placeholder="Search subjects or topics...">
+                </div>
+                
+                <div class="subject-tabs">
+                    <button class="tab-btn active" data-subject="all">All</button>
+                    <button class="tab-btn" data-subject="cse">CSE</button>
+                    <button class="tab-btn" data-subject="ece">ECE</button>
+                </div>
+
+                <div class="notes-grid" id="notes-grid">
+                    <!-- Notes will be populated dynamically by JS -->
+                </div>
+            </div>
+        </section>
+        
+        <section id="view-tools" class="view">
+            <div class="view-header">
+                <button class="back-btn" data-target="view-home"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <h2><i class="fa-solid fa-toolbox text-primary" style="margin-right: 0.5rem;"></i> Tools</h2>
+            </div>
+            <div class="tools-container">
+                <!-- CGPA to Percentage Calculator -->
+                <div class="card tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon orange-gradient"><i class="fa-solid fa-percent"></i></div>
+                        <h3>CGPA to Percentage</h3>
+                    </div>
+                    <div class="tool-body">
+                        <div class="tool-row">
+                            <span>CGPA</span>
+                            <input type="number" id="cgpa-val" class="input-field tool-input" placeholder="e.g., 8.5" step="0.01" max="10">
+                            <span>Multiplier</span>
+                            <select id="cgpa-multiplier" class="input-field tool-select">
+                                <option value="9.5">x 9.5 (Standard)</option>
+                                <option value="10">x 10 (Engineering)</option>
+                            </select>
+                        </div>
+                        <div class="tool-result-row">
+                            <button id="calc-cgpa-pct-btn" class="btn btn-primary btn-sm">Calculate</button>
+                            <div class="tool-result" id="cgpa-pct-result">= ?</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unit Converter -->
+                <div class="card tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon teal-gradient"><i class="fa-solid fa-ruler"></i></div>
+                        <h3>Unit Converter (Length)</h3>
+                    </div>
+                    <div class="tool-body">
+                        <div class="tool-row">
+                            <input type="number" id="unit-val" class="input-field tool-input" placeholder="Value">
+                            <select id="unit-from" class="input-field tool-select">
+                                <option value="cm">Centimeters</option>
+                                <option value="m">Meters</option>
+                                <option value="in">Inches</option>
+                                <option value="ft">Feet</option>
+                            </select>
+                            <span>to</span>
+                            <select id="unit-to" class="input-field tool-select">
+                                <option value="cm">Centimeters</option>
+                                <option value="m">Meters</option>
+                                <option value="in" selected>Inches</option>
+                                <option value="ft">Feet</option>
+                            </select>
+                        </div>
+                        <div class="tool-result-row">
+                            <button id="calc-unit-btn" class="btn btn-primary btn-sm">Convert</button>
+                            <div class="tool-result" id="unit-result">= ?</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Global Bottom Banner Ad -->
+    <div class="global-banner-ad">
+        <span>Banner Advertisement (320x50)</span>
+    </div>
+
+    <!-- Interstitial Ad Placeholder -->
+    <div id="interstitial-ad" class="interstitial-overlay">
+        <div class="interstitial-content">
+            <button id="close-interstitial" class="btn-icon close-ad-btn" aria-label="Close Ad"><i class="fa-solid fa-xmark"></i></button>
+            <div class="ad-placeholder full-page-ad">
+                <span>Interstitial Advertisement</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
