@@ -14,9 +14,14 @@
     <header class="app-header">
         <div class="header-content">
             <h1><i class="fa-solid fa-graduation-cap"></i> Student Toolkit</h1>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
-                <i class="fa-solid fa-moon"></i>
-            </button>
+            <div class="header-actions">
+                <button id="user-btn" class="theme-toggle" aria-label="User Profile">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -45,6 +50,14 @@
                     <p>Calculate your semester grade point average</p>
                 </div>
 
+                <div class="card nav-card" data-target="view-attendance">
+                    <div class="card-icon green-gradient">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <h3>Attendance Calculator</h3>
+                    <p>Track and calculate your attendance percentage</p>
+                </div>
+
                 <div class="card nav-card" data-target="view-notes">
                     <div class="card-icon teal-gradient">
                         <i class="fa-solid fa-file-pdf"></i>
@@ -59,6 +72,14 @@
                     </div>
                     <h3>Tools</h3>
                     <p>Percentage calculator, unit converters & more</p>
+                </div>
+
+                <div class="card nav-card" data-target="view-profile">
+                    <div class="card-icon pink-gradient">
+                        <i class="fa-solid fa-user-circle"></i>
+                    </div>
+                    <h3>My Profile</h3>
+                    <p>View and update your personal information</p>
                 </div>
             </div>
             
@@ -225,15 +246,81 @@
                 <h2><i class="fa-solid fa-file-pdf text-primary" style="margin-right: 0.5rem;"></i> PDF Notes</h2>
             </div>
             <div class="notes-container">
+                <!-- Upload Section -->
+                <div class="card notes-upload-card" id="notes-upload-card" style="display: none;">
+                    <div class="calc-header">
+                        <h3><i class="fa-solid fa-cloud-arrow-up" style="margin-right: 0.5rem;"></i> Upload PDF</h3>
+                        <button id="toggle-upload-form-btn" class="btn btn-outline btn-sm"><i class="fa-solid fa-chevron-down"></i></button>
+                    </div>
+                    <form id="notes-upload-form" class="notes-upload-form">
+                        <div class="form-group">
+                            <label>PDF File</label>
+                            <div class="file-upload-area" id="file-upload-area">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <p>Click or drag to upload PDF</p>
+                                <input type="file" id="note-file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.jpg,.jpeg,.png" hidden>
+                                <span class="file-name-display" id="file-name-display"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Title *</label>
+                                <input type="text" id="note-title" class="input-field" placeholder="Note title" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Subject *</label>
+                                <input type="text" id="note-subject" class="input-field" placeholder="e.g., Mathematics" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Semester *</label>
+                                <input type="text" id="note-semester" class="input-field" placeholder="e.g., 3" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Visibility</label>
+                                <select id="note-visibility" class="input-field">
+                                    <option value="PRIVATE">Private</option>
+                                    <option value="PUBLIC">Public</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="note-description" class="input-field" placeholder="Brief description of the note..." rows="2"></textarea>
+                        </div>
+                        <div class="upload-actions">
+                            <button type="button" id="cancel-upload-btn" class="btn btn-outline text-muted">Cancel</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-upload"></i> Upload</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Upload button for logged-in users -->
+                <button id="show-upload-btn" class="btn btn-primary notes-upload-toggle" style="display: none;">
+                    <i class="fa-solid fa-plus"></i> Upload New PDF
+                </button>
+
+                <!-- Not logged in message -->
+                <div id="notes-login-message" class="card notes-login-message">
+                    <i class="fa-solid fa-lock" style="font-size: 2rem; color: var(--text-muted); margin-bottom: 0.5rem;"></i>
+                    <p class="text-muted">Login to upload and manage your PDF notes.</p>
+                    <button class="btn btn-primary btn-sm" onclick="navigateTo('view-login')"><i class="fa-solid fa-sign-in-alt"></i> Login</button>
+                </div>
+
                 <div class="search-bar">
                     <i class="fa-solid fa-search"></i>
-                    <input type="text" id="notes-search" class="input-field" placeholder="Search subjects or topics...">
+                    <input type="text" id="notes-search" class="input-field" placeholder="Search subjects or titles...">
                 </div>
                 
-                <div class="subject-tabs">
+                <div class="subject-tabs" id="notes-subject-tabs">
                     <button class="tab-btn active" data-subject="all">All</button>
-                    <button class="tab-btn" data-subject="cse">CSE</button>
-                    <button class="tab-btn" data-subject="ece">ECE</button>
+                </div>
+
+                <!-- Notes toggle: My Notes vs Public Notes -->
+                <div class="notes-toggle" id="notes-toggle" style="display: none;">
+                    <button class="tab-btn active" data-notes-view="my-notes">My Notes</button>
+                    <button class="tab-btn" data-notes-view="public-notes">Public Notes</button>
                 </div>
 
                 <div class="notes-grid" id="notes-grid">
@@ -241,6 +328,22 @@
                 </div>
             </div>
         </section>
+
+        <!-- PDF Viewer Modal -->
+        <div id="pdf-viewer-modal" class="pdf-viewer-overlay" style="display: none;">
+            <div class="pdf-viewer-container">
+                <div class="pdf-viewer-header">
+                    <h3 id="pdf-viewer-title">PDF Viewer</h3>
+                    <div class="pdf-viewer-actions">
+                        <button id="pdf-download-btn" class="btn btn-outline btn-sm"><i class="fa-solid fa-download"></i> Download</button>
+                        <button id="pdf-close-btn" class="btn-icon" title="Close"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+                <div class="pdf-viewer-body">
+                    <iframe id="pdf-viewer-iframe" src="" title="PDF Viewer"></iframe>
+                </div>
+            </div>
+        </div>
         
         <section id="view-tools" class="view">
             <div class="view-header">
@@ -299,6 +402,234 @@
                             <div class="tool-result" id="unit-result">= ?</div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Attendance Calculator View -->
+        <section id="view-attendance" class="view">
+            <div class="view-header">
+                <button class="back-btn" data-target="view-home"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <h2><i class="fa-solid fa-clipboard-check text-primary" style="margin-right: 0.5rem;"></i> Attendance Calculator</h2>
+            </div>
+            <div class="calculator-container">
+                <div class="card calc-card">
+                    <div class="calc-header">
+                        <h3>Subjects</h3>
+                        <button id="add-attendance-subject-btn" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Add Subject</button>
+                    </div>
+                    
+                    <div class="subjects-list" id="attendance-subjects">
+                        <div class="attendance-row">
+                            <input type="text" placeholder="Subject Name" class="input-field attendance-name">
+                            <input type="number" placeholder="Total Classes" class="input-field attendance-total" min="0">
+                            <input type="number" placeholder="Attended" class="input-field attendance-attended" min="0">
+                            <button class="btn-icon remove-attendance text-danger" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div class="attendance-row">
+                            <input type="text" placeholder="Subject Name" class="input-field attendance-name">
+                            <input type="number" placeholder="Total Classes" class="input-field attendance-total" min="0">
+                            <input type="number" placeholder="Attended" class="input-field attendance-attended" min="0">
+                            <button class="btn-icon remove-attendance text-danger" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div class="attendance-row">
+                            <input type="text" placeholder="Subject Name" class="input-field attendance-name">
+                            <input type="number" placeholder="Total Classes" class="input-field attendance-total" min="0">
+                            <input type="number" placeholder="Attended" class="input-field attendance-attended" min="0">
+                            <button class="btn-icon remove-attendance text-danger" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="calc-actions">
+                        <button id="reset-attendance-btn" class="btn btn-outline text-muted">Reset</button>
+                        <button id="calc-attendance-btn" class="btn btn-primary">Calculate Attendance</button>
+                    </div>
+                </div>
+                
+                <div class="card result-card" id="attendance-result-card" style="display: none;">
+                    <h3>Your Overall Attendance</h3>
+                    <div class="result-value" id="attendance-result-value">0.00%</div>
+                    <p class="result-message" id="attendance-result-message"></p>
+                    <div class="attendance-subject-breakdown" id="attendance-breakdown"></div>
+                    <div class="attendance-save-actions" id="attendance-save-actions" style="display: none;">
+                        <input type="text" id="attendance-semester-name" class="input-field" placeholder="Semester name (e.g., Semester 3)" style="margin-bottom: 0.75rem;">
+                        <button id="save-attendance-btn" class="btn btn-primary btn-sm"><i class="fa-solid fa-save"></i> Save to History</button>
+                    </div>
+                </div>
+
+                <!-- Attendance History -->
+                <div class="card" id="attendance-history-card" style="display: none;">
+                    <div class="calc-header">
+                        <h3><i class="fa-solid fa-clock-rotate-left" style="margin-right: 0.5rem;"></i> Attendance History</h3>
+                    </div>
+                    <div class="attendance-history-list" id="attendance-history-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile View -->
+        <section id="view-profile" class="view">
+            <div class="view-header">
+                <button class="back-btn" data-target="view-home"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <h2><i class="fa-solid fa-user-circle text-primary" style="margin-right: 0.5rem;"></i> My Profile</h2>
+            </div>
+            <div class="profile-container" id="profile-container">
+                <!-- Not logged in state -->
+                <div id="profile-not-logged-in" class="card profile-card">
+                    <div class="profile-avatar-placeholder">
+                        <i class="fa-solid fa-user-lock"></i>
+                    </div>
+                    <h3>You're not logged in</h3>
+                    <p class="text-muted">Login to view and manage your profile, save attendance & CGPA history.</p>
+                    <div class="profile-auth-actions">
+                        <button id="profile-login-btn" class="btn btn-primary"><i class="fa-solid fa-sign-in-alt"></i> Login</button>
+                        <button id="profile-register-btn" class="btn btn-outline"><i class="fa-solid fa-user-plus"></i> Register</button>
+                    </div>
+                </div>
+
+                <!-- Logged in state -->
+                <div id="profile-logged-in" class="card profile-card" style="display: none;">
+                    <div class="profile-header-section">
+                        <div class="profile-avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div class="profile-header-info">
+                            <h3 id="profile-display-name">User Name</h3>
+                            <p class="text-muted" id="profile-display-email">user@email.com</p>
+                            <span class="profile-role-tag" id="profile-display-role">STUDENT</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-details" id="profile-details-view">
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label"><i class="fa-solid fa-phone"></i> Phone</span>
+                            <span class="profile-detail-value" id="profile-display-phone">—</span>
+                        </div>
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label"><i class="fa-solid fa-building"></i> Department</span>
+                            <span class="profile-detail-value" id="profile-display-department">—</span>
+                        </div>
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label"><i class="fa-solid fa-university"></i> College</span>
+                            <span class="profile-detail-value" id="profile-display-college">—</span>
+                        </div>
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label"><i class="fa-solid fa-book"></i> Semester</span>
+                            <span class="profile-detail-value" id="profile-display-semester">—</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-edit-form" id="profile-edit-form" style="display: none;">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profile-edit-name" class="input-field" placeholder="Full Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" id="profile-edit-phone" class="input-field" placeholder="Phone Number">
+                        </div>
+                        <div class="form-group">
+                            <label>Department</label>
+                            <input type="text" id="profile-edit-department" class="input-field" placeholder="Department">
+                        </div>
+                        <div class="form-group">
+                            <label>College</label>
+                            <input type="text" id="profile-edit-college" class="input-field" placeholder="College">
+                        </div>
+                        <div class="form-group">
+                            <label>Semester</label>
+                            <input type="text" id="profile-edit-semester" class="input-field" placeholder="Semester">
+                        </div>
+                        <div class="profile-edit-actions">
+                            <button id="profile-cancel-edit-btn" class="btn btn-outline text-muted">Cancel</button>
+                            <button id="profile-save-edit-btn" class="btn btn-primary"><i class="fa-solid fa-save"></i> Save Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions" id="profile-actions-view">
+                        <button id="profile-edit-btn" class="btn btn-outline"><i class="fa-solid fa-pen"></i> Edit Profile</button>
+                        <button id="profile-logout-btn" class="btn btn-outline text-danger"><i class="fa-solid fa-sign-out-alt"></i> Logout</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login View -->
+        <section id="view-login" class="view">
+            <div class="view-header">
+                <button class="back-btn" data-target="view-home"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <h2><i class="fa-solid fa-sign-in-alt text-primary" style="margin-right: 0.5rem;"></i> Login</h2>
+            </div>
+            <div class="auth-container">
+                <div class="card auth-card">
+                    <div class="auth-icon-header">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <form id="login-form" class="auth-form">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="login-email" class="input-field" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="login-password" class="input-field" placeholder="Enter your password" required>
+                        </div>
+                        <div class="auth-actions">
+                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-sign-in-alt"></i> Login</button>
+                        </div>
+                        <p class="auth-switch-text">Don't have an account? <a href="#" id="login-to-register" class="auth-link">Register here</a></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Register View -->
+        <section id="view-register" class="view">
+            <div class="view-header">
+                <button class="back-btn" data-target="view-home"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <h2><i class="fa-solid fa-user-plus text-primary" style="margin-right: 0.5rem;"></i> Register</h2>
+            </div>
+            <div class="auth-container">
+                <div class="card auth-card">
+                    <div class="auth-icon-header">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <form id="register-form" class="auth-form">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="register-name" class="input-field" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="register-email" class="input-field" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="register-password" class="input-field" placeholder="Min 6 characters" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone (Optional)</label>
+                            <input type="text" id="register-phone" class="input-field" placeholder="Phone number">
+                        </div>
+                        <div class="form-group">
+                            <label>Department (Optional)</label>
+                            <input type="text" id="register-department" class="input-field" placeholder="e.g., Computer Science">
+                        </div>
+                        <div class="form-group">
+                            <label>College (Optional)</label>
+                            <input type="text" id="register-college" class="input-field" placeholder="e.g., MIT">
+                        </div>
+                        <div class="form-group">
+                            <label>Semester (Optional)</label>
+                            <input type="text" id="register-semester" class="input-field" placeholder="e.g., 3">
+                        </div>
+                        <div class="auth-actions">
+                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Create Account</button>
+                        </div>
+                        <p class="auth-switch-text">Already have an account? <a href="#" id="register-to-login" class="auth-link">Login here</a></p>
+                    </form>
                 </div>
             </div>
         </section>
